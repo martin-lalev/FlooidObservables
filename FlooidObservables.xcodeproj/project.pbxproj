@@ -7,28 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4688DBC72516019000B2F088 /* FlooidObservables.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4688DBBD2516019000B2F088 /* FlooidObservables.framework */; };
-		4688DBCC2516019000B2F088 /* FlooidObservablesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBCB2516019000B2F088 /* FlooidObservablesTests.swift */; };
 		4688DBCE2516019000B2F088 /* FlooidObservables.h in Headers */ = {isa = PBXBuildFile; fileRef = 4688DBC02516019000B2F088 /* FlooidObservables.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4688DBDF2516023700B2F088 /* FlatMappedBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBD72516023700B2F088 /* FlatMappedBindable.swift */; };
+		4688DBE02516023700B2F088 /* Bindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBD82516023700B2F088 /* Bindable.swift */; };
+		4688DBE12516023700B2F088 /* MutableBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBD92516023700B2F088 /* MutableBindable.swift */; };
+		4688DBE22516023700B2F088 /* UserDefaultsBindableProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBDA2516023700B2F088 /* UserDefaultsBindableProvider.swift */; };
+		4688DBE32516023700B2F088 /* BindableSink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBDB2516023700B2F088 /* BindableSink.swift */; };
+		4688DBE42516023700B2F088 /* MappedBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBDC2516023700B2F088 /* MappedBindable.swift */; };
+		4688DBE52516023700B2F088 /* CombinedBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBDD2516023700B2F088 /* CombinedBindable.swift */; };
+		4688DBE62516023700B2F088 /* BindableProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBDE2516023700B2F088 /* BindableProxy.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		4688DBC82516019000B2F088 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4688DBB42516019000B2F088 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4688DBBC2516019000B2F088;
-			remoteInfo = FlooidObservables;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		4688DBBD2516019000B2F088 /* FlooidObservables.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlooidObservables.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4688DBC02516019000B2F088 /* FlooidObservables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlooidObservables.h; sourceTree = "<group>"; };
 		4688DBC12516019000B2F088 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4688DBC62516019000B2F088 /* FlooidObservablesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlooidObservablesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4688DBCB2516019000B2F088 /* FlooidObservablesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlooidObservablesTests.swift; sourceTree = "<group>"; };
-		4688DBCD2516019000B2F088 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4688DBD72516023700B2F088 /* FlatMappedBindable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlatMappedBindable.swift; sourceTree = "<group>"; };
+		4688DBD82516023700B2F088 /* Bindable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bindable.swift; sourceTree = "<group>"; };
+		4688DBD92516023700B2F088 /* MutableBindable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableBindable.swift; sourceTree = "<group>"; };
+		4688DBDA2516023700B2F088 /* UserDefaultsBindableProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsBindableProvider.swift; sourceTree = "<group>"; };
+		4688DBDB2516023700B2F088 /* BindableSink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BindableSink.swift; sourceTree = "<group>"; };
+		4688DBDC2516023700B2F088 /* MappedBindable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MappedBindable.swift; sourceTree = "<group>"; };
+		4688DBDD2516023700B2F088 /* CombinedBindable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombinedBindable.swift; sourceTree = "<group>"; };
+		4688DBDE2516023700B2F088 /* BindableProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BindableProxy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,14 +40,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4688DBC32516019000B2F088 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4688DBC72516019000B2F088 /* FlooidObservables.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -54,7 +47,6 @@
 			isa = PBXGroup;
 			children = (
 				4688DBBF2516019000B2F088 /* FlooidObservables */,
-				4688DBCA2516019000B2F088 /* FlooidObservablesTests */,
 				4688DBBE2516019000B2F088 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -63,7 +55,6 @@
 			isa = PBXGroup;
 			children = (
 				4688DBBD2516019000B2F088 /* FlooidObservables.framework */,
-				4688DBC62516019000B2F088 /* FlooidObservablesTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -71,19 +62,18 @@
 		4688DBBF2516019000B2F088 /* FlooidObservables */ = {
 			isa = PBXGroup;
 			children = (
+				4688DBD82516023700B2F088 /* Bindable.swift */,
+				4688DBD92516023700B2F088 /* MutableBindable.swift */,
+				4688DBDC2516023700B2F088 /* MappedBindable.swift */,
+				4688DBD72516023700B2F088 /* FlatMappedBindable.swift */,
+				4688DBDD2516023700B2F088 /* CombinedBindable.swift */,
+				4688DBDB2516023700B2F088 /* BindableSink.swift */,
+				4688DBDE2516023700B2F088 /* BindableProxy.swift */,
+				4688DBDA2516023700B2F088 /* UserDefaultsBindableProvider.swift */,
 				4688DBC02516019000B2F088 /* FlooidObservables.h */,
 				4688DBC12516019000B2F088 /* Info.plist */,
 			);
 			path = FlooidObservables;
-			sourceTree = "<group>";
-		};
-		4688DBCA2516019000B2F088 /* FlooidObservablesTests */ = {
-			isa = PBXGroup;
-			children = (
-				4688DBCB2516019000B2F088 /* FlooidObservablesTests.swift */,
-				4688DBCD2516019000B2F088 /* Info.plist */,
-			);
-			path = FlooidObservablesTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,24 +108,6 @@
 			productReference = 4688DBBD2516019000B2F088 /* FlooidObservables.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		4688DBC52516019000B2F088 /* FlooidObservablesTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4688DBD42516019000B2F088 /* Build configuration list for PBXNativeTarget "FlooidObservablesTests" */;
-			buildPhases = (
-				4688DBC22516019000B2F088 /* Sources */,
-				4688DBC32516019000B2F088 /* Frameworks */,
-				4688DBC42516019000B2F088 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4688DBC92516019000B2F088 /* PBXTargetDependency */,
-			);
-			name = FlooidObservablesTests;
-			productName = FlooidObservablesTests;
-			productReference = 4688DBC62516019000B2F088 /* FlooidObservablesTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -147,9 +119,7 @@
 				TargetAttributes = {
 					4688DBBC2516019000B2F088 = {
 						CreatedOnToolsVersion = 12.0;
-					};
-					4688DBC52516019000B2F088 = {
-						CreatedOnToolsVersion = 12.0;
+						LastSwiftMigration = 1200;
 					};
 				};
 			};
@@ -167,20 +137,12 @@
 			projectRoot = "";
 			targets = (
 				4688DBBC2516019000B2F088 /* FlooidObservables */,
-				4688DBC52516019000B2F088 /* FlooidObservablesTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		4688DBBB2516019000B2F088 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4688DBC42516019000B2F088 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -194,26 +156,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4688DBC22516019000B2F088 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4688DBCC2516019000B2F088 /* FlooidObservablesTests.swift in Sources */,
+				4688DBE32516023700B2F088 /* BindableSink.swift in Sources */,
+				4688DBE62516023700B2F088 /* BindableProxy.swift in Sources */,
+				4688DBE22516023700B2F088 /* UserDefaultsBindableProvider.swift in Sources */,
+				4688DBE12516023700B2F088 /* MutableBindable.swift in Sources */,
+				4688DBE42516023700B2F088 /* MappedBindable.swift in Sources */,
+				4688DBE02516023700B2F088 /* Bindable.swift in Sources */,
+				4688DBDF2516023700B2F088 /* FlatMappedBindable.swift in Sources */,
+				4688DBE52516023700B2F088 /* CombinedBindable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		4688DBC92516019000B2F088 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4688DBBC2516019000B2F088 /* FlooidObservables */;
-			targetProxy = 4688DBC82516019000B2F088 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		4688DBCF2516019000B2F088 /* Debug */ = {
@@ -268,13 +222,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -326,12 +281,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -341,6 +297,7 @@
 		4688DBD22516019000B2F088 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 68289M92U2;
@@ -357,6 +314,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mart.FlooidObservables;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -365,6 +323,7 @@
 		4688DBD32516019000B2F088 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 68289M92U2;
@@ -381,42 +340,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mart.FlooidObservables;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		4688DBD52516019000B2F088 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 68289M92U2;
-				INFOPLIST_FILE = FlooidObservablesTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mart.FlooidObservablesTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		4688DBD62516019000B2F088 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 68289M92U2;
-				INFOPLIST_FILE = FlooidObservablesTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mart.FlooidObservablesTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -439,15 +362,6 @@
 			buildConfigurations = (
 				4688DBD22516019000B2F088 /* Debug */,
 				4688DBD32516019000B2F088 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		4688DBD42516019000B2F088 /* Build configuration list for PBXNativeTarget "FlooidObservablesTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4688DBD52516019000B2F088 /* Debug */,
-				4688DBD62516019000B2F088 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
