@@ -51,4 +51,16 @@ public extension ObservableValue {
         self.subscribe(with: action).dispose(into: bindableSink)
     }
     
+    func assign<O: AnyObject>(to keyPath: ReferenceWritableKeyPath<O, Value>, on object: O) -> Subscriber<Self> {
+        self.subscribe { value in
+            object[keyPath: keyPath] = value
+        }
+    }
+    @discardableResult
+    func assign<O: AnyObject>(via bindableSink: BindableSink, to keyPath: ReferenceWritableKeyPath<O, Value>, on object: O) -> Subscriber<Self> {
+        self.bind(into: bindableSink) { value in
+            object[keyPath: keyPath] = value
+        }
+    }
+
 }
