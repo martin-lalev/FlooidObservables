@@ -60,27 +60,29 @@ extension Bindable: Publisher {
     public typealias Failure = Never
 
     public func receive<S: Combine.Subscriber>(subscriber: S) where S.Input == Output, S.Failure == Failure {
-        let subscription = BindableSubscription<Value, S>()
-        subscription.target = subscriber
-        subscriber.receive(subscription: subscription)
-        self.add(subscription, selector: #selector(subscription.trigger))
+        Subscription(with: subscriber).attach(to: self)
     }
 
-    class BindableSubscription<Value, Target: Combine.Subscriber>: Subscription where Target.Input == Value {
-        weak var bindable: Bindable<Value>?
+    private class Subscription<Value, S: Combine.Subscriber>: Combine.Subscription where S.Input == Value {
+        let subscriber: S
+        let bindableSink = BindableSink()
+
+        init(with subscriber: S) {
+            self.subscriber = subscriber
+        }
+        deinit {
+            self.bindableSink.clean()
+        }
+        
+        func request(_ demand: Subscribers.Demand) {}
+        func cancel() { self.bindableSink.clean() }
 
         func attach(to bindable: Bindable<Value>) {
-            self.bindable = bindable
-            bindable.add(self, selector: #selector(trigger))
-        }
-
-        var target: Target?
-        func request(_ demand: Subscribers.Demand) {}
-        func cancel() { bindable?.remove(self) }
-
-        @objc func trigger() {
-            guard let value = bindable?.value else { return }
-            _ = target?.receive(value)
+            bindable.bind(into: self.bindableSink) { [weak self] value in
+                _ = self?.subscriber.receive(value)
+            }
+            _ = self.subscriber.receive(bindable.value)
+            self.subscriber.receive(subscription: self)
         }
     }
 }

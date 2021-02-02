@@ -8,6 +8,7 @@
 
 import Foundation
 
+@propertyWrapper
 @dynamicMemberLookup
 public class MutableBindable<Value> {
     
@@ -17,7 +18,17 @@ public class MutableBindable<Value> {
     public init(with value: Value) {
         self.storedValue = value
     }
+    public init(wrappedValue value: Value) {
+        self.storedValue = value
+    }
+
+    public var wrappedValue: Value {
+        get { self.value }
+        set { self.update(to: newValue) }
+    }
     
+    public var projectedValue: MutableBindable<Value> { self }
+
     public func update(to value: Value) {
         self.storedValue = value
         NotificationCenter.default.post(name: self.name, object: self, userInfo: nil)
