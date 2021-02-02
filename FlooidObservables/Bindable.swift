@@ -86,3 +86,43 @@ extension Bindable: Publisher {
         }
     }
 }
+
+@available(iOS 13.0, iOSApplicationExtension 13.0, *)
+public class PublishedBindable<Value, O: ObservableObject>: ObservableValue {
+    let observableObject: O
+    let keyPath: KeyPath<O, Value>
+    private let name: Notification.Name = .init("published_bindable")
+    private var cancellable: Cancellable?
+
+    init(for observableObject: O, keyPath: KeyPath<O, Value>) {
+        self.observableObject = observableObject
+        self.keyPath = keyPath
+
+        self.cancellable = self.observableObject.objectWillChange.sink { value in
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: self.name, object: self, userInfo: nil)
+            }
+        }
+    }
+    deinit {
+        self.cancellable?.cancel()
+        self.cancellable = nil
+    }
+    
+    public var value: Value {
+        return self.observableObject[keyPath: self.keyPath]
+    }
+    public func add(_ target: Any, selector: Selector) {
+        NotificationCenter.default.addObserver(target, selector: selector, name: self.name, object: self)
+    }
+    public func remove(_ target: Any) {
+        NotificationCenter.default.removeObserver(target, name: self.name, object: self)
+    }
+}
+
+@available(iOS 13.0, iOSApplicationExtension 13.0, *)
+public extension ObservableObject {
+    func bindable<Value>(for keyPath: KeyPath<Self, Value>) -> PublishedBindable<Value, Self> {
+        return .init(for: self, keyPath: keyPath)
+    }
+}
