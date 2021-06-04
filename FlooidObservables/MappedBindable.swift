@@ -59,6 +59,19 @@ extension ObservableValue {
     }
     
 }
+
+extension ObservableValue {
+
+    public func mapUnwrapped<T,TargetType>(_ processer: @escaping (T) -> TargetType) -> MappedBindable<Self,TargetType?> where Value == T? {
+        return MappedBindable(for: self) { $0.map(processer) }
+    }
+    
+    public func mapUnwrapped<T,TargetType, O: AnyObject>(_ object: O, _ processer: @escaping (O, T) -> TargetType) -> MappedBindable<Self,TargetType?> where Value == T? {
+        return MappedBindable(for: self) { [unowned object] in $0.map { processer(object, $0) } }
+    }
+    
+}
+
 extension ObservableValue where Value: Sequence {
     
     public func mapEach<TargetType>(_ processer: @escaping (Value.Element) -> TargetType) -> MappedBindable<Self,[TargetType]> {
