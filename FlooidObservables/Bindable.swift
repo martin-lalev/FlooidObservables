@@ -89,7 +89,7 @@ extension Bindable: Publisher {
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, *)
 public class PublishedBindable<Value, O: ObservableObject>: ObservableValue {
-    let observableObject: O
+    unowned let observableObject: O
     let keyPath: KeyPath<O, Value>
     private let name: Notification.Name = .init("published_bindable")
     private var cancellable: Cancellable?
@@ -121,8 +121,43 @@ public class PublishedBindable<Value, O: ObservableObject>: ObservableValue {
 }
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, *)
+public class PublishedObservable<O: ObservableObject>: ObservableValue {
+    unowned let observableObject: O
+    private let name: Notification.Name = .init("published_bindable")
+    private var cancellable: Cancellable?
+
+    init(for observableObject: O) {
+        self.observableObject = observableObject
+
+        self.cancellable = self.observableObject.objectWillChange.sink { value in
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: self.name, object: self, userInfo: nil)
+            }
+        }
+    }
+    deinit {
+        self.cancellable?.cancel()
+        self.cancellable = nil
+    }
+    
+    public var value: O {
+        return self.observableObject
+    }
+    public func add(_ target: Any, selector: Selector) {
+        NotificationCenter.default.addObserver(target, selector: selector, name: self.name, object: self)
+    }
+    public func remove(_ target: Any) {
+        NotificationCenter.default.removeObserver(target, name: self.name, object: self)
+    }
+}
+
+@available(iOS 13.0, iOSApplicationExtension 13.0, *)
 public extension ObservableObject {
     func bindable<Value>(for keyPath: KeyPath<Self, Value>) -> PublishedBindable<Value, Self> {
         return .init(for: self, keyPath: keyPath)
+    }
+
+    func bindable() -> PublishedObservable<Self> {
+        return .init(for: self)
     }
 }
