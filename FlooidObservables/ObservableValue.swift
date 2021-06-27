@@ -11,9 +11,8 @@ public protocol ObservableValue {
     func add(_ observer: @escaping (Value) -> Void) -> NSObjectProtocol
 }
 
-public class BindableSink {
+public class BindableSink: NSObject {
     var disposings: [AnyObject] = []
-    public init() { }
     deinit { self.clean() }
     public func clean() { self.disposings.removeAll() }
 }
