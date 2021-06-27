@@ -19,13 +19,13 @@ public class UserDefaultsBindableProvider {
 
     public func bindable<Value: Hashable>(for key: String, defaultValue: Value?) -> MutableBindable<Value?> {
         let bindable = MutableBindable(with: self.userDefaults.object(forKey: key) as? Value ?? defaultValue)
-        bindable.subscribe { [weak self] newValue in
+        bindable.bind(into: self.bindableSink) { [weak self] newValue in
             if let newValue = newValue {
                 self?.userDefaults.set(newValue, forKey: key)
             } else {
                 self?.userDefaults.removeObject(forKey: key)
             }
-        }.dispose(into: self.bindableSink)
+        }
         return bindable
     }
 
