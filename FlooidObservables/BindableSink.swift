@@ -19,15 +19,19 @@ public class Subscriber<O: ObservableValue> {
     
     private var bindable: O
     private let storedAction: (O.Value) -> Void
-    
+    private var observerToken: NSObjectProtocol?
+
     fileprivate init(to bindable: O, with action: @escaping (O.Value) -> Void) {
         self.bindable = bindable
         self.storedAction = action
-        bindable.add(self, selector: #selector(self.action))
-        self.action()
+        self.observerToken = bindable.add { [weak self] value in
+            guard let self = self else { return }
+            self.action(value)
+        }
+        self.action(bindable.value)
     }
     deinit {
-        self.bindable.remove(self)
+        self.observerToken = nil
     }
     
     @discardableResult
@@ -36,8 +40,8 @@ public class Subscriber<O: ObservableValue> {
         return self
     }
     
-    @objc private func action() {
-        self.storedAction(self.bindable.value)
+    private func action(_ value: O.Value) {
+        self.storedAction(value)
     }
 }
 

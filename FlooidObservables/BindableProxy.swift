@@ -14,30 +14,35 @@ public class BindableProxy<Value> {
     private let wrappedValue: MutableBindable<Value>
     private var actual: Bindable<Value>?
     private var cancellable: Any?
+    private var observerToken: NSObjectProtocol?
 
     public init(with initialValue: Value) {
         self.wrappedValue = MutableBindable(with: initialValue)
     }
     deinit {
-        self.actual?.remove(self)
+        self.observerToken = nil
         self.actual = nil
         self.cancellable = nil
     }
 
     public func attach<O: ObservableValue>(to observable: O?) where O.Value == Value {
-        self.actual?.remove(self)
+        self.observerToken = nil
         self.actual = nil
         self.actual = observable?.asAny()
-        self.actual?.add(self, selector: #selector(updated))
-        updated()
+        self.observerToken = self.actual?.add { [weak self] value in
+            guard let self = self else { return }
+            self.updated(value)
+        }
+        if let value = self.actual?.value {
+            updated(value)
+        }
     }
     
     public func assign(_ value: Value) {
         self.attach(to: MutableBindable(with: value))
     }
 
-    @objc public func updated() {
-        guard let value = self.actual?.value else { return }
+    public func updated(_ value: Value) {
         self.wrappedValue.update(to: value)
     }
 
@@ -52,13 +57,11 @@ public class BindableProxy<Value> {
 
 extension BindableProxy: ObservableValue {
 
-    public func add(_ target: Any, selector: Selector) {
-        self.wrappedValue.add(target, selector: selector)
-    }
-    public func remove(_ target: Any) {
-        self.wrappedValue.remove(target)
-    }
     public var value: Value {
         return self.wrappedValue.value
+    }
+    
+    public func add(_ observer: @escaping (Value) -> Void) -> NSObjectProtocol {
+        self.wrappedValue.add(observer)
     }
 }

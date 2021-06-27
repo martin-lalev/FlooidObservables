@@ -15,21 +15,26 @@ public class MappedBindable<O1: ObservableValue,TargetType> {
     private let mapper: (O1.Value) -> TargetType
     
     private var wrappedValue: TargetType!
+    
+    private var observerToken: NSObjectProtocol?
 
     public init(for baseResults1: O1, _ mapper: @escaping (O1.Value) -> TargetType) {
         self.baseResults1 = baseResults1
         
         self.mapper = mapper
-        self.updateValue()
+        self.updateValue(baseResults1.value)
 
-        self.add(self, selector: #selector(updateValue))
+        self.observerToken = baseResults1.add { [weak self] value in
+            guard let self = self else { return }
+            self.updateValue(value)
+        }
     }
     deinit {
-        self.remove(self)
+        self.observerToken = nil
     }
     
-    @objc private func updateValue() {
-        self.wrappedValue = self.mapper(self.baseResults1.value)
+    private func updateValue(_ value: O1.Value) {
+        self.wrappedValue = self.mapper(value)
     }
 
 }
@@ -39,11 +44,12 @@ extension MappedBindable: ObservableValue {
     public var value: TargetType {
         return self.wrappedValue
     }
-    public func add(_ observer: Any, selector: Selector) {
-        self.baseResults1.add(observer, selector: selector)
-    }
-    public func remove(_ observer: Any) {
-        self.baseResults1.remove(observer)
+    
+    public func add(_ observer: @escaping (TargetType) -> Void) -> NSObjectProtocol {
+        self.baseResults1.add { [weak self] value in
+            guard let self = self else { return }
+            observer(self.wrappedValue)
+        }
     }
     
 }

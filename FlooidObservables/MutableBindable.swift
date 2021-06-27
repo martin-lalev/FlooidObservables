@@ -47,13 +47,13 @@ public class MutableBindable<Value> {
 
 extension MutableBindable: ObservableValue {
 
-    public func add(_ target: Any, selector: Selector) {
-        NotificationCenter.default.addObserver(target, selector: selector, name: self.name, object: self)
-    }
-    public func remove(_ target: Any) {
-        NotificationCenter.default.removeObserver(target, name: self.name, object: self)
-    }
     public var value: Value {
         return self.storedValue
+    }
+    public func add(_ observer: @escaping (Value) -> Void) -> NSObjectProtocol {
+        NotificationCenter.default.addObserver(forName: self.name, object: self, queue: .main) { [weak self] _ in
+            guard let self = self else { return }
+            observer(self.value)
+        }
     }
 }

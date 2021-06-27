@@ -17,26 +17,38 @@ public class FlatMappedBindable<OV: ObservableValue, PV: ObservableValue> {
     private var baseResults: PV
     private let dispatcher = MutableBindable(with: ())
 
+    private var observerTokenBase: NSObjectProtocol?
+    private var observerTokenWrapped: NSObjectProtocol?
+
     init(attachedTo observer: OV, _ processer: @escaping (OV.Value) -> PV) {
         self.processer = processer
         self.baseResults = processer(observer.value)
         self.wrapped = observer
-        self.baseResults.add(self, selector: #selector(self.resultsChanged))
-        self.wrapped.add(self, selector: #selector(externalEvent))
+        self.observerTokenBase = self.baseResults.add { [weak self] value in
+            guard let self = self else { return }
+            self.resultsChanged()
+        }
+        self.observerTokenWrapped = self.wrapped.add { [weak self] value in
+            guard let self = self else { return }
+            self.externalEvent(value)
+        }
     }
     deinit {
-        self.baseResults.remove(self)
-        self.wrapped.remove(self)
+        self.observerTokenBase = nil
+        self.observerTokenWrapped = nil
     }
     
     @objc func resultsChanged() {
         self.dispatcher.update(to: ())
     }
     
-    @objc private func externalEvent() {
-        self.baseResults.remove(self)
-        self.baseResults = self.processer(self.wrapped.value)
-        self.baseResults.add(self, selector: #selector(self.resultsChanged))
+    private func externalEvent(_ value: OV.Value) {
+        self.observerTokenBase = nil
+        self.baseResults = self.processer(value)
+        self.observerTokenBase = self.baseResults.add { [weak self] value in
+            guard let self = self else { return }
+            self.resultsChanged()
+        }
         self.dispatcher.update(to: ())
     }
 
@@ -44,14 +56,15 @@ public class FlatMappedBindable<OV: ObservableValue, PV: ObservableValue> {
 
 extension FlatMappedBindable: ObservableValue {
     
-    public func add(_ observer: Any, selector: Selector) {
-        self.dispatcher.add(observer, selector: selector)
-    }
-    public func remove(_ observer: Any) {
-        self.dispatcher.remove(observer)
-    }
     public var value: PV.Value {
         return self.baseResults.value
+    }
+    
+    public func add(_ observer: @escaping (PV.Value) -> Void) -> NSObjectProtocol {
+        self.dispatcher.add { [weak self] _ in
+            guard let self = self else { return }
+            observer(self.value)
+        }
     }
     
 }

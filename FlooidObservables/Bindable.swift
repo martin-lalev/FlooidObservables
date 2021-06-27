@@ -12,8 +12,7 @@ import Combine
 public protocol ObservableValue {
     associatedtype Value
     var value: Value { get }
-    func add(_ observer: Any, selector: Selector)
-    func remove(_ observer: Any)
+    func add(_ observer: @escaping (Value) -> Void) -> NSObjectProtocol
 }
 
 @propertyWrapper
@@ -21,24 +20,19 @@ public protocol ObservableValue {
 public class Bindable<Value>: ObservableValue {
     
     var _value: () -> Value
-    var _add: (Any, Selector) -> Void
-    var _remove: (Any) -> Void
+    var _adder: (@escaping (Value) -> Void) -> NSObjectProtocol
     
     init<Base: ObservableValue>(_ base: Base) where Base.Value == Value {
         self._value = { base.value }
-        self._add = base.add
-        self._remove = base.remove
+        self._adder = base.add(_:)
     }
     
     public var wrappedValue: Value { self.value }
     
     public var projectedValue: Bindable<Value> { self }
     
-    public func add(_ target: Any, selector: Selector) {
-        self._add(target, selector)
-    }
-    public func remove(_ target: Any) {
-        self._remove(target)
+    public func add(_ observer: @escaping (Value) -> Void) -> NSObjectProtocol {
+        self._adder(observer)
     }
     
     public var value: Value {
@@ -89,7 +83,7 @@ extension Bindable: Publisher {
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, *)
 public class PublishedBindable<Value, O: ObservableObject>: ObservableValue {
-    unowned let observableObject: O
+    weak var observableObject: O?
     let keyPath: KeyPath<O, Value>
     private let name: Notification.Name = .init("published_bindable")
     private var cancellable: Cancellable?
@@ -98,8 +92,10 @@ public class PublishedBindable<Value, O: ObservableObject>: ObservableValue {
         self.observableObject = observableObject
         self.keyPath = keyPath
 
-        self.cancellable = self.observableObject.objectWillChange.sink { value in
+        self.cancellable = observableObject.objectWillChange.sink { [weak self] _ in
+            guard let self = self else { return }
             DispatchQueue.main.async {
+                guard self.observableObject != nil else { return }
                 NotificationCenter.default.post(name: self.name, object: self, userInfo: nil)
             }
         }
@@ -110,27 +106,29 @@ public class PublishedBindable<Value, O: ObservableObject>: ObservableValue {
     }
     
     public var value: Value {
-        return self.observableObject[keyPath: self.keyPath]
+        return self.observableObject![keyPath: self.keyPath]
     }
-    public func add(_ target: Any, selector: Selector) {
-        NotificationCenter.default.addObserver(target, selector: selector, name: self.name, object: self)
-    }
-    public func remove(_ target: Any) {
-        NotificationCenter.default.removeObserver(target, name: self.name, object: self)
+    public func add(_ observer: @escaping (Value) -> Void) -> NSObjectProtocol {
+        NotificationCenter.default.addObserver(forName: self.name, object: self, queue: .main) { [weak self] _ in
+            guard let self = self else { return }
+            observer(self.value)
+        }
     }
 }
 
 @available(iOS 13.0, iOSApplicationExtension 13.0, *)
 public class PublishedObservable<O: ObservableObject>: ObservableValue {
-    unowned let observableObject: O
+    weak var observableObject: O?
     private let name: Notification.Name = .init("published_bindable")
     private var cancellable: Cancellable?
 
     init(for observableObject: O) {
         self.observableObject = observableObject
 
-        self.cancellable = self.observableObject.objectWillChange.sink { value in
+        self.cancellable = observableObject.objectWillChange.sink { [weak self] value in
+            guard let self = self else { return }
             DispatchQueue.main.async {
+                guard self.observableObject != nil else { return }
                 NotificationCenter.default.post(name: self.name, object: self, userInfo: nil)
             }
         }
@@ -141,13 +139,13 @@ public class PublishedObservable<O: ObservableObject>: ObservableValue {
     }
     
     public var value: O {
-        return self.observableObject
+        return self.observableObject!
     }
-    public func add(_ target: Any, selector: Selector) {
-        NotificationCenter.default.addObserver(target, selector: selector, name: self.name, object: self)
-    }
-    public func remove(_ target: Any) {
-        NotificationCenter.default.removeObserver(target, name: self.name, object: self)
+    public func add(_ observer: @escaping (Value) -> Void) -> NSObjectProtocol {
+        NotificationCenter.default.addObserver(forName: self.name, object: self, queue: .main) { [weak self] _ in
+            guard let self = self else { return }
+            observer(self.observableObject!)
+        }
     }
 }
 
