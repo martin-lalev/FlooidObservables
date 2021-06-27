@@ -1,12 +1,15 @@
 //
-//  BindableSink.swift
-//  DandaniaUtils
+//  ObservableValue.swift
+//  FlooidObservables
 //
-//  Created by Martin Lalev on 16.11.19.
-//  Copyright © 2019 Martin Lalev. All rights reserved.
+//  Created by Martin Lalev on 27/06/2021.
 //
 
-import Foundation
+public protocol ObservableValue {
+    associatedtype Value
+    var value: Value { get }
+    func add(_ observer: @escaping (Value) -> Void) -> NSObjectProtocol
+}
 
 public class BindableSink {
     var disposings: [AnyObject] = []

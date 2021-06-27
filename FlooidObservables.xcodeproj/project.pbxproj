@@ -12,10 +12,13 @@
 		4688DBE02516023700B2F088 /* Bindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBD82516023700B2F088 /* Bindable.swift */; };
 		4688DBE12516023700B2F088 /* MutableBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBD92516023700B2F088 /* MutableBindable.swift */; };
 		4688DBE22516023700B2F088 /* UserDefaultsBindableProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBDA2516023700B2F088 /* UserDefaultsBindableProvider.swift */; };
-		4688DBE32516023700B2F088 /* BindableSink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBDB2516023700B2F088 /* BindableSink.swift */; };
 		4688DBE42516023700B2F088 /* MappedBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBDC2516023700B2F088 /* MappedBindable.swift */; };
 		4688DBE52516023700B2F088 /* CombinedBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBDD2516023700B2F088 /* CombinedBindable.swift */; };
 		4688DBE62516023700B2F088 /* BindableProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBDE2516023700B2F088 /* BindableProxy.swift */; };
+		469BAC122688964000072DF4 /* ObservableValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469BAC112688964000072DF4 /* ObservableValue.swift */; };
+		469BAC1B2688981F00072DF4 /* PublishedBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469BAC1A2688981F00072DF4 /* PublishedBindable.swift */; };
+		469BAC1D2688983000072DF4 /* PublishedObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469BAC1C2688983000072DF4 /* PublishedObservable.swift */; };
+		469BAC1F268898AC00072DF4 /* ObservableValueSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469BAC1E268898AC00072DF4 /* ObservableValueSubscription.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,10 +29,13 @@
 		4688DBD82516023700B2F088 /* Bindable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bindable.swift; sourceTree = "<group>"; };
 		4688DBD92516023700B2F088 /* MutableBindable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableBindable.swift; sourceTree = "<group>"; };
 		4688DBDA2516023700B2F088 /* UserDefaultsBindableProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsBindableProvider.swift; sourceTree = "<group>"; };
-		4688DBDB2516023700B2F088 /* BindableSink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BindableSink.swift; sourceTree = "<group>"; };
 		4688DBDC2516023700B2F088 /* MappedBindable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MappedBindable.swift; sourceTree = "<group>"; };
 		4688DBDD2516023700B2F088 /* CombinedBindable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombinedBindable.swift; sourceTree = "<group>"; };
 		4688DBDE2516023700B2F088 /* BindableProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BindableProxy.swift; sourceTree = "<group>"; };
+		469BAC112688964000072DF4 /* ObservableValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableValue.swift; sourceTree = "<group>"; };
+		469BAC1A2688981F00072DF4 /* PublishedBindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedBindable.swift; sourceTree = "<group>"; };
+		469BAC1C2688983000072DF4 /* PublishedObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedObservable.swift; sourceTree = "<group>"; };
+		469BAC1E268898AC00072DF4 /* ObservableValueSubscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableValueSubscription.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,18 +68,29 @@
 		4688DBBF2516019000B2F088 /* FlooidObservables */ = {
 			isa = PBXGroup;
 			children = (
+				469BAC112688964000072DF4 /* ObservableValue.swift */,
 				4688DBD82516023700B2F088 /* Bindable.swift */,
 				4688DBD92516023700B2F088 /* MutableBindable.swift */,
 				4688DBDC2516023700B2F088 /* MappedBindable.swift */,
 				4688DBD72516023700B2F088 /* FlatMappedBindable.swift */,
 				4688DBDD2516023700B2F088 /* CombinedBindable.swift */,
-				4688DBDB2516023700B2F088 /* BindableSink.swift */,
 				4688DBDE2516023700B2F088 /* BindableProxy.swift */,
 				4688DBDA2516023700B2F088 /* UserDefaultsBindableProvider.swift */,
+				469BAC15268897D400072DF4 /* Combine */,
 				4688DBC02516019000B2F088 /* FlooidObservables.h */,
 				4688DBC12516019000B2F088 /* Info.plist */,
 			);
 			path = FlooidObservables;
+			sourceTree = "<group>";
+		};
+		469BAC15268897D400072DF4 /* Combine */ = {
+			isa = PBXGroup;
+			children = (
+				469BAC1E268898AC00072DF4 /* ObservableValueSubscription.swift */,
+				469BAC1A2688981F00072DF4 /* PublishedBindable.swift */,
+				469BAC1C2688983000072DF4 /* PublishedObservable.swift */,
+			);
+			path = Combine;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,11 +173,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4688DBE32516023700B2F088 /* BindableSink.swift in Sources */,
 				4688DBE62516023700B2F088 /* BindableProxy.swift in Sources */,
 				4688DBE22516023700B2F088 /* UserDefaultsBindableProvider.swift in Sources */,
 				4688DBE12516023700B2F088 /* MutableBindable.swift in Sources */,
+				469BAC1B2688981F00072DF4 /* PublishedBindable.swift in Sources */,
 				4688DBE42516023700B2F088 /* MappedBindable.swift in Sources */,
+				469BAC1F268898AC00072DF4 /* ObservableValueSubscription.swift in Sources */,
+				469BAC1D2688983000072DF4 /* PublishedObservable.swift in Sources */,
+				469BAC122688964000072DF4 /* ObservableValue.swift in Sources */,
 				4688DBE02516023700B2F088 /* Bindable.swift in Sources */,
 				4688DBDF2516023700B2F088 /* FlatMappedBindable.swift in Sources */,
 				4688DBE52516023700B2F088 /* CombinedBindable.swift in Sources */,
