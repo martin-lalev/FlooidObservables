@@ -14,7 +14,6 @@
 		4688DBE22516023700B2F088 /* UserDefaultsBindableProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBDA2516023700B2F088 /* UserDefaultsBindableProvider.swift */; };
 		4688DBE42516023700B2F088 /* MappedBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBDC2516023700B2F088 /* MappedBindable.swift */; };
 		4688DBE52516023700B2F088 /* CombinedBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBDD2516023700B2F088 /* CombinedBindable.swift */; };
-		4688DBE62516023700B2F088 /* BindableProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4688DBDE2516023700B2F088 /* BindableProxy.swift */; };
 		469BAC122688964000072DF4 /* ObservableValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469BAC112688964000072DF4 /* ObservableValue.swift */; };
 		469BAC1B2688981F00072DF4 /* PublishedBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469BAC1A2688981F00072DF4 /* PublishedBindable.swift */; };
 		469BAC1D2688983000072DF4 /* PublishedObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469BAC1C2688983000072DF4 /* PublishedObservable.swift */; };
@@ -31,7 +30,6 @@
 		4688DBDA2516023700B2F088 /* UserDefaultsBindableProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsBindableProvider.swift; sourceTree = "<group>"; };
 		4688DBDC2516023700B2F088 /* MappedBindable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MappedBindable.swift; sourceTree = "<group>"; };
 		4688DBDD2516023700B2F088 /* CombinedBindable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombinedBindable.swift; sourceTree = "<group>"; };
-		4688DBDE2516023700B2F088 /* BindableProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BindableProxy.swift; sourceTree = "<group>"; };
 		469BAC112688964000072DF4 /* ObservableValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableValue.swift; sourceTree = "<group>"; };
 		469BAC1A2688981F00072DF4 /* PublishedBindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedBindable.swift; sourceTree = "<group>"; };
 		469BAC1C2688983000072DF4 /* PublishedObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedObservable.swift; sourceTree = "<group>"; };
@@ -74,7 +72,6 @@
 				4688DBDC2516023700B2F088 /* MappedBindable.swift */,
 				4688DBD72516023700B2F088 /* FlatMappedBindable.swift */,
 				4688DBDD2516023700B2F088 /* CombinedBindable.swift */,
-				4688DBDE2516023700B2F088 /* BindableProxy.swift */,
 				4688DBDA2516023700B2F088 /* UserDefaultsBindableProvider.swift */,
 				469BAC15268897D400072DF4 /* Combine */,
 				4688DBC02516019000B2F088 /* FlooidObservables.h */,
@@ -173,7 +170,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4688DBE62516023700B2F088 /* BindableProxy.swift in Sources */,
 				4688DBE22516023700B2F088 /* UserDefaultsBindableProvider.swift in Sources */,
 				4688DBE12516023700B2F088 /* MutableBindable.swift in Sources */,
 				469BAC1B2688981F00072DF4 /* PublishedBindable.swift in Sources */,
