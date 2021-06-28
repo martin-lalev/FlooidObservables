@@ -7,7 +7,6 @@
 
 import Combine
 
-@available(iOSApplicationExtension 13.0, *)
 public class PublishedObservable<O: ObservableObject>: ObservableValue {
     weak var observableObject: O?
     
@@ -42,7 +41,6 @@ public class PublishedObservable<O: ObservableObject>: ObservableValue {
     }
 }
 
-@available(iOSApplicationExtension 13.0, *)
 public extension ObservableObject {
     func bindable() -> PublishedObservable<Self> {
         return .init(for: self)

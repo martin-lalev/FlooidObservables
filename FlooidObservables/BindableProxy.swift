@@ -48,7 +48,6 @@ public class BindableProxy<Value> {
         self.wrappedValue.update(to: value)
     }
 
-    @available(iOSApplicationExtension 13.0, *)
     public func attach<O: ObservableObject>(to observable: O, _ keyPath: KeyPath<O, Value>) {
         self.cancellable = observable.objectWillChange.sink(receiveValue: { [weak self] value in
             self?.wrappedValue.update(to: observable[keyPath: keyPath])

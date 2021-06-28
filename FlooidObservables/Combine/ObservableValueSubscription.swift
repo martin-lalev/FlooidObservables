@@ -7,7 +7,6 @@
 
 import Combine
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, *)
 class ObservableValueSubscription<Value, S: Combine.Subscriber>: Combine.Subscription where S.Input == Value {
     let subscriber: S
     let bindableSink = BindableSink()
@@ -31,20 +30,17 @@ class ObservableValueSubscription<Value, S: Combine.Subscriber>: Combine.Subscri
     }
 }
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, *)
 extension ObservableValue where Self: Publisher, Value == Output {
     public func receive<S: Combine.Subscriber>(subscriber: S) where S.Input == Output, S.Failure == Failure {
         ObservableValueSubscription(with: subscriber).attach(to: self)
     }
 }
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, *)
 extension Bindable: Publisher {
     public typealias Output = Value
     public typealias Failure = Never
 }
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, *)
 extension MutableBindable: Publisher {
     public typealias Output = Value
     public typealias Failure = Never

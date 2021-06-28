@@ -7,7 +7,6 @@
 
 import Combine
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, *)
 public class PublishedBindable<Value, O: ObservableObject>: ObservableValue {
     weak var observableObject: O?
     let keyPath: KeyPath<O, Value>
@@ -42,7 +41,6 @@ public class PublishedBindable<Value, O: ObservableObject>: ObservableValue {
     }
 }
 
-@available(iOS 13.0, iOSApplicationExtension 13.0, *)
 public extension ObservableObject {
     func bindable<Value>(for keyPath: KeyPath<Self, Value>) -> PublishedBindable<Value, Self> {
         return .init(for: self, keyPath: keyPath)
