@@ -34,7 +34,7 @@ public class PublishedObservable<O: ObservableObject>: ObservableValue {
     public var value: O {
         return self.observableObject!
     }
-    public func add(_ observer: @escaping (Value) -> Void) -> NSObjectProtocol {
+    public func add(_ observer: @escaping (O) -> Void) -> NSObjectProtocol {
         NotificationCenter.default.addObserver(forName: self.name, object: self, queue: .main) { [weak self] _ in
             guard let self = self else { return }
             observer(self.observableObject!)

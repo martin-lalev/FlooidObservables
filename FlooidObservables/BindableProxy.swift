@@ -25,7 +25,8 @@ public class BindableProxy<Value> {
         self.cancellable = nil
     }
 
-    public func attach<O: ObservableValue>(to observable: O?) where O.Value == Value {
+    @discardableResult
+    public func attach<O: ObservableValue>(to observable: O?) -> Self where O.Value == Value {
         self.observerToken = nil
         self.actual = nil
         self.actual = observable?.asAny()
@@ -36,6 +37,7 @@ public class BindableProxy<Value> {
         if let value = self.actual?.value {
             updated(value)
         }
+        return self
     }
     
     public func assign(_ value: Value) {

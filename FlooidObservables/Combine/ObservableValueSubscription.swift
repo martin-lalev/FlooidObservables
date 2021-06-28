@@ -10,20 +10,20 @@ import Combine
 @available(iOS 13.0, iOSApplicationExtension 13.0, *)
 class ObservableValueSubscription<Value, S: Combine.Subscriber>: Combine.Subscription where S.Input == Value {
     let subscriber: S
-    var token: NSObjectProtocol?
+    let bindableSink = BindableSink()
 
     init(with subscriber: S) {
         self.subscriber = subscriber
     }
     deinit {
-        self.token = nil
+        self.bindableSink.clean()
     }
     
     func request(_ demand: Subscribers.Demand) {}
-    func cancel() { self.token = nil }
+    func cancel() { self.bindableSink.clean() }
 
     func attach<O: ObservableValue>(to bindable: O) where O.Value == Value {
-        self.token = bindable.add { [weak self] value in
+        bindable.bind(into: self.bindableSink) { [weak self] value in
             _ = self?.subscriber.receive(value)
         }
         _ = self.subscriber.receive(bindable.value)
