@@ -35,6 +35,8 @@ public class Bindable<Value>: ObservableValue {
 
 public extension ObservableValue {
     func asAny() -> Bindable<Value> { return Bindable(self) }
+    func asAnyValue() -> BindableValue<Value> { return BindableValue(self) }
 }
 
+public typealias BindableValue<Value> = Bindable<Value>
 public typealias BindableList<T> = Bindable<[T]>
