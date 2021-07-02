@@ -13,7 +13,7 @@ import Foundation
 public class MutableBindable<Value> {
     
     private var storedValue: Value
-    private let name: Notification.Name = .init("mutable_bindable")
+    private let dispatcher: Dispatcher = ClosureDispatcher()
     
     public init(with value: Value) {
         self.storedValue = value
@@ -31,7 +31,7 @@ public class MutableBindable<Value> {
 
     public func update(to value: Value) {
         self.storedValue = value
-        NotificationCenter.default.post(name: self.name, object: self, userInfo: nil)
+        dispatcher.post()
     }
 
     public subscript<T>(dynamicMember keyPath: KeyPath<Value, T>) -> T {
@@ -51,9 +51,60 @@ extension MutableBindable: ObservableValue {
         return self.storedValue
     }
     public func add(_ observer: @escaping (Value) -> Void) -> NSObjectProtocol {
-        NotificationCenter.default.addObserver(forName: self.name, object: self, queue: .main) { [weak self] _ in
+        dispatcher.add { [weak self] in
             guard let self = self else { return }
             observer(self.value)
         }
+    }
+}
+
+
+protocol Dispatcher {
+    func post()
+    func add(_ action: @escaping () -> Void) -> NSObjectProtocol
+}
+class NotificationDispatcher: Dispatcher {
+    private let name: Notification.Name
+    init(_ name: String) { self.name = .init(name) }
+    func post() {
+        NotificationCenter.default.post(name: self.name, object: self, userInfo: nil)
+    }
+    func add(_ action: @escaping () -> Void) -> NSObjectProtocol {
+        NotificationCenter.default.addObserver(forName: self.name, object: self, queue: .main) { _ in
+            action()
+        }
+    }
+}
+class ClosureDispatcher: Dispatcher {
+    class Weakened {
+        weak var observer: Observer?
+        init(_ observer: Observer) {
+            self.observer = observer
+        }
+    }
+    class Observer: NSObject {
+        let action: () -> Void
+        init(_ action: @escaping () -> Void) {
+            self.action = action
+            super.init()
+        }
+    }
+    var observers: [Weakened] = []
+    
+    deinit {
+        self.observers.removeAll()
+    }
+    
+    func post() {
+        for observer in observers {
+            observer.observer?.action()
+        }
+    }
+    
+    func add(_ action: @escaping () -> Void) -> NSObjectProtocol {
+        let observer = Observer(action)
+        self.observers.append(.init(observer))
+        self.observers.removeAll { $0.observer == nil }
+        return observer
     }
 }
