@@ -10,25 +10,25 @@ import Foundation
 
 public class UserDefaultsBindableProvider {
     
-    private var token: NSObjectProtocol?
+    private var tokens: [NSObjectProtocol] = []
     private let userDefaults: UserDefaults
     
     public init(with userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
     }
     deinit {
-        self.token = nil
+        self.tokens.removeAll()
     }
 
     public func bindable<Value: Hashable>(for key: String, defaultValue: Value?) -> MutableBindable<Value?> {
         let bindable = MutableBindable(with: self.userDefaults.object(forKey: key) as? Value ?? defaultValue)
-        self.token = bindable.add { [weak self] newValue in
+        self.tokens.append(bindable.add { [weak self] newValue in
             if let newValue = newValue {
                 self?.userDefaults.set(newValue, forKey: key)
             } else {
                 self?.userDefaults.removeObject(forKey: key)
             }
-        }
+        })
         return bindable
     }
 
