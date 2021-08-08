@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "FlooidObservables"
-s.version      = "0.0.6"
+s.version      = "0.0.7"
 s.summary      = "Lightweight FRP framework"
 s.description  = "Lightweight FRP framework"
 s.homepage     = "http://github.com/martin-lalev/FlooidObservables"

@@ -8,20 +8,17 @@
 import Combine
 
 public class PublishedObservable<O: ObservableObject>: ObservableValue {
-    weak var observableObject: O?
     
-    private let name: Notification.Name = .init("published_bindable")
+    private let dispatcher: MutableBindable<O>
     private var cancellable: Cancellable?
 
     init(for observableObject: O) {
-        self.observableObject = observableObject
+        self.dispatcher = MutableBindable(with: observableObject)
         
-
         self.cancellable = observableObject.objectWillChange.sink { [weak self] value in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                guard self.observableObject != nil else { return }
-                NotificationCenter.default.post(name: self.name, object: self, userInfo: nil)
+                self.dispatcher.update(to: observableObject)
             }
         }
     }
@@ -31,18 +28,19 @@ public class PublishedObservable<O: ObservableObject>: ObservableValue {
     }
     
     public var value: O {
-        return self.observableObject!
+        return self.dispatcher.value
     }
     public func add(_ observer: @escaping (O) -> Void) -> NSObjectProtocol {
-        NotificationCenter.default.addObserver(forName: self.name, object: self, queue: .main) { [weak self] _ in
-            guard let self = self else { return }
-            observer(self.observableObject!)
-        }
+        dispatcher.add(observer)
     }
 }
 
 public extension ObservableObject {
     func bindable() -> PublishedObservable<Self> {
         return .init(for: self)
+    }
+
+    func bindable<Value>(for keyPath: KeyPath<Self, Value>) -> MappedBindable<PublishedObservable<Self>,Value> {
+        return PublishedObservable(for: self).map { $0[keyPath: keyPath] }
     }
 }
