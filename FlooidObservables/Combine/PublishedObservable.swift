@@ -17,9 +17,7 @@ public class PublishedObservable<O: ObservableObject>: ObservableValue {
         
         self.cancellable = observableObject.objectWillChange.sink { [weak self] value in
             guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.dispatcher.update(to: observableObject)
-            }
+            self.dispatcher.update(to: observableObject)
         }
     }
     deinit {
