@@ -1,10 +1,10 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.3
 
 import PackageDescription
 
 let package = Package(
     name: "FlooidObservables",
-    platforms: [.iOS(.v11)],
+    platforms: [.iOS(.v13)],
     products: [
         .library(
             name: "FlooidObservables",
@@ -15,6 +15,8 @@ let package = Package(
     targets: [
         .target(
             name: "FlooidObservables",
-            path: "FlooidObservables"),
+            path: "FlooidObservables",
+            exclude: ["Info.plist"]
+        ),
     ]
 )

@@ -5,6 +5,8 @@
 //  Created by Martin Lalev on 27/06/2021.
 //
 
+import Foundation
+
 public protocol ObservableValue {
     associatedtype Value
     var value: Value { get }

@@ -5,6 +5,7 @@
 //  Created by Martin Lalev on 27/06/2021.
 //
 
+import Foundation
 import Combine
 
 public class PublishedObservable<O: ObservableObject>: ObservableValue {

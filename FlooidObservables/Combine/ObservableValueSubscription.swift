@@ -5,6 +5,7 @@
 //  Created by Martin Lalev on 27/06/2021.
 //
 
+import Foundation
 import Combine
 
 class ObservableValueSubscription<Value, S: Combine.Subscriber>: Combine.Subscription where S.Input == Value {

@@ -6,6 +6,8 @@
 //  Copyright © 2019 Martin Lalev. All rights reserved.
 //
 
+import Foundation
+
 @propertyWrapper
 @dynamicMemberLookup
 public class Bindable<Value>: ObservableValue {

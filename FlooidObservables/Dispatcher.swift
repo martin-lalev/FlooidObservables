@@ -5,6 +5,8 @@
 //  Created by Martin Lalev on 08/08/2021.
 //
 
+import Foundation
+
 protocol Dispatcher {
     func post()
     func add(_ action: @escaping () -> Void) -> NSObjectProtocol
