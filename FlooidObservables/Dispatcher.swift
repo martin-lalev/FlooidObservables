@@ -47,7 +47,8 @@ class ClosureDispatcher: Dispatcher {
     }
     init() {}
     var observers: [Weakened] = []
-    
+    private let queue = DispatchQueue(label: UUID().uuidString)
+
     deinit {
         self.observers.removeAll()
     }
@@ -59,9 +60,11 @@ class ClosureDispatcher: Dispatcher {
     }
     
     func add(_ action: @escaping () -> Void) -> NSObjectProtocol {
-        let observer = Observer(action)
-        self.observers.append(.init(observer))
-        self.observers.removeAll { $0.observer == nil }
-        return observer
+        queue.sync {
+            let observer = Observer(action)
+            self.observers.append(.init(observer))
+            self.observers.removeAll { $0.observer == nil }
+            return observer
+        }
     }
 }
