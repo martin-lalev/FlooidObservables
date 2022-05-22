@@ -9,6 +9,7 @@ import Foundation
 
 public protocol ObservableModelType: AnyObject {
     var objectWillUpdateStorage: ObservableModelDispatcher { get }
+    var objectWillUpdate: MutableBindable<Void> { get }
 }
 
 open class ViewModelBase {
