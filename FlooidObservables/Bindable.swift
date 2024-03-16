@@ -8,8 +8,6 @@
 
 import Foundation
 
-@propertyWrapper
-@dynamicMemberLookup
 public class Bindable<Value>: ObservableValue {
     
     var _value: () -> Value
@@ -31,14 +29,8 @@ public class Bindable<Value>: ObservableValue {
     public var value: Value {
         return self._value()
     }
-    
-    public subscript<T>(dynamicMember keyPath: KeyPath<Value,T>) -> Bindable<T> { self.map { $0[keyPath: keyPath] }.asAny() }
 }
 
 public extension ObservableValue {
     func asAny() -> Bindable<Value> { return Bindable(self) }
-    func asAnyValue() -> BindableValue<Value> { return BindableValue(self) }
 }
-
-public typealias BindableValue<Value> = Bindable<Value>
-public typealias BindableList<T> = Bindable<[T]>

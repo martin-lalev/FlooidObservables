@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class FlatMappedBindable<OV: ObservableValue, PV: ObservableValue> {
+class FlatMappedBindable<OV: ObservableValue, PV: ObservableValue> {
 
     private let wrapped: OV
     
@@ -56,11 +56,11 @@ public class FlatMappedBindable<OV: ObservableValue, PV: ObservableValue> {
 
 extension FlatMappedBindable: ObservableValue {
     
-    public var value: PV.Value {
+    var value: PV.Value {
         return self.baseResults.value
     }
     
-    public func add(_ observer: @escaping (PV.Value) -> Void) -> NSObjectProtocol {
+    func add(_ observer: @escaping (PV.Value) -> Void) -> NSObjectProtocol {
         self.dispatcher.add { [weak self] _ in
             guard let self = self else { return }
             observer(self.value)
@@ -71,11 +71,11 @@ extension FlatMappedBindable: ObservableValue {
 
 public extension ObservableValue {
     
-    func flatMap<T: ObservableValue>(_ mapper: @escaping (Value) -> T) -> FlatMappedBindable<Self, T> {
+    func flatMap<T: ObservableValue>(_ mapper: @escaping (Value) -> T) -> some ObservableValue<T.Value> {
         return FlatMappedBindable(attachedTo: self, mapper)
     }
     
-    func flatMap<T: ObservableValue, O: AnyObject>(_ object: O, _ mapper: @escaping (O, Value) -> T) -> FlatMappedBindable<Self, T> {
+    func flatMap<T: ObservableValue, O: AnyObject>(_ object: O, _ mapper: @escaping (O, Value) -> T) -> some ObservableValue<T.Value> {
         return FlatMappedBindable(attachedTo: self) { [unowned object] in mapper(object, $0) }
     }
     
@@ -83,7 +83,7 @@ public extension ObservableValue {
 
 public extension ObservableValue {
     
-    func flatMap<T: ObservableValue, TD: ObservableValue, V>(defaultTo defaultObservable: TD, _ mapper: @escaping (V) -> T) -> FlatMappedBindable<Self, Bindable<T.Value>> where Value == V?, T.Value == TD.Value {
+    func flatMap<T: ObservableValue, TD: ObservableValue, V>(defaultTo defaultObservable: TD, _ mapper: @escaping (V) -> T) -> some ObservableValue<T.Value> where Value == V?, T.Value == TD.Value {
         return FlatMappedBindable(attachedTo: self) {
             if let value = $0 {
                 return mapper(value).asAny()
@@ -93,7 +93,7 @@ public extension ObservableValue {
         }
     }
 
-    func flatMap<T: ObservableValue, V>(defaultTo defaultValue: T.Value, _ mapper: @escaping (V) -> T) -> FlatMappedBindable<Self, Bindable<T.Value>> where Value == V? {
+    func flatMap<T: ObservableValue, V>(defaultTo defaultValue: T.Value, _ mapper: @escaping (V) -> T) -> some ObservableValue<T.Value> where Value == V? {
         return FlatMappedBindable(attachedTo: self) {
             if let value = $0 {
                 return mapper(value).asAny()
@@ -103,7 +103,7 @@ public extension ObservableValue {
         }
     }
     
-    func flatMap<T: ObservableValue, TD: ObservableValue, O: AnyObject, V>(defaultTo defaultObservable: TD, _ object: O, _ mapper: @escaping (O, V) -> T) -> FlatMappedBindable<Self, Bindable<T.Value>> where Value == V?, T.Value == TD.Value {
+    func flatMap<T: ObservableValue, TD: ObservableValue, O: AnyObject, V>(defaultTo defaultObservable: TD, _ object: O, _ mapper: @escaping (O, V) -> T) -> some ObservableValue<T.Value> where Value == V?, T.Value == TD.Value {
         return FlatMappedBindable(attachedTo: self) {
             if let value = $0 {
                 return mapper(object, value).asAny()
@@ -113,7 +113,7 @@ public extension ObservableValue {
         }
     }
 
-    func flatMap<T: ObservableValue, O: AnyObject, V>(defaultTo defaultValue: T.Value, _ object: O, _ mapper: @escaping (O, V) -> T) -> FlatMappedBindable<Self, Bindable<T.Value>> where Value == V? {
+    func flatMap<T: ObservableValue, O: AnyObject, V>(defaultTo defaultValue: T.Value, _ object: O, _ mapper: @escaping (O, V) -> T) -> some ObservableValue<T.Value> where Value == V? {
         return FlatMappedBindable(attachedTo: self) {
             if let value = $0 {
                 return mapper(object, value).asAny()

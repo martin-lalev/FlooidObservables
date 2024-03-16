@@ -7,12 +7,12 @@
 
 import Foundation
 
-public class DistinctBindable<Value> {
+class DistinctBindable<Value> {
     private let wrapperValue: MutableBindable<Value>
-    private let baseResults: Bindable<Value>
+    private let baseResults: any ObservableValue<Value>
     private var observerToken: NSObjectProtocol?
 
-    public init<O: ObservableValue>(for baseResults1: O, _ filter: @escaping (_ oldValue: Value, _ newValue: Value) -> Bool) where O.Value == Value {
+    init(for baseResults1: some ObservableValue<Value>, _ filter: @escaping (_ oldValue: Value, _ newValue: Value) -> Bool) {
         self.wrapperValue = .init(with: baseResults1.value)
         self.baseResults = baseResults1.asAny()
 
@@ -29,36 +29,36 @@ public class DistinctBindable<Value> {
 
 extension DistinctBindable: ObservableValue {
     
-    public var value: Value {
+    var value: Value {
         return self.wrapperValue.value
     }
     
-    public func add(_ observer: @escaping (Value) -> Void) -> NSObjectProtocol {
+    func add(_ observer: @escaping (Value) -> Void) -> NSObjectProtocol {
         self.wrapperValue.add(observer)
     }
     
 }
 
-extension ObservableValue {
+public extension ObservableValue {
 
-    public func distinct(_ filter: @escaping (_ oldValue: Value, _ newValue: Value) -> Bool) -> DistinctBindable<Value> {
+    func distinct(_ filter: @escaping (_ oldValue: Value, _ newValue: Value) -> Bool) -> some ObservableValue<Value> {
         return DistinctBindable(for: self, filter)
     }
     
-    public func distinct<O: AnyObject>(_ object: O, _ filter: @escaping (O, _ oldValue: Value, _ newValue: Value) -> Bool) -> DistinctBindable<Value> {
+    func distinct<O: AnyObject>(_ object: O, _ filter: @escaping (O, _ oldValue: Value, _ newValue: Value) -> Bool) -> some ObservableValue<Value> {
         return DistinctBindable(for: self) { [unowned object] in filter(object, $0, $1) }
     }
     
 }
 
-extension ObservableValue where Value: Equatable {
-    public func distinctEquatable() -> DistinctBindable<Value> {
+public extension ObservableValue where Value: Equatable {
+    func distinctEquatable() -> some ObservableValue<Value> {
         return self.distinct { $0 != $1 }
     }
 }
 
-extension ObservableValue where Value: Identifiable {
-    public func distinctIdentifiable() -> DistinctBindable<Value> {
+public extension ObservableValue where Value: Identifiable {
+    func distinctIdentifiable() -> some ObservableValue<Value> {
         return self.distinct { $0.id != $1.id }
     }
 }

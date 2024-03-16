@@ -45,8 +45,8 @@ class CombinedBindable<O1: ObservableValue, O2: ObservableValue>: ObservableValu
 }
 
 public extension ObservableValue {
-    func combine<O: ObservableValue>(with observable: O) -> Bindable<(Value, O.Value)> {
-        return CombinedBindable(self, observable).asAny()
+    func combine<O: ObservableValue>(with observable: O) -> some ObservableValue<(Value, O.Value)> {
+        return CombinedBindable(self, observable)
     }
 }
 
@@ -89,7 +89,7 @@ class CombinedBindableArray<O: ObservableValue>: ObservableValue {
 }
 
 public extension Array where Element: ObservableValue {
-    func merge() -> Bindable<[Element.Value]> {
-        return CombinedBindableArray(self).asAny()
+    func merge() -> some ObservableValue<[Element.Value]> {
+        return CombinedBindableArray(self)
     }
 }
