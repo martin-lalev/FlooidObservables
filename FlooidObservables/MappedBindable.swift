@@ -131,7 +131,7 @@ extension ObservableValue where Value: Sequence {
     }
     
     public func sort<T:Equatable, O: ObservableValue>(byExistenceIn collection: O, existingFirst: Bool = true, keyPath: KeyPath<Value.Element,T>) -> Bindable<[Value.Element]> where O.Value == [Value.Element] {
-        combine(self, collection).map { myItems, collectionItems in
+        #combine(self, collection).map { myItems, collectionItems in
             let mappedCollectionItems = collectionItems.map { $0[keyPath: keyPath] }
             return myItems.sorted(by: { mappedCollectionItems.contains($0[keyPath: keyPath]) == existingFirst && mappedCollectionItems.contains($1[keyPath: keyPath]) != existingFirst })
         }.asAny()
