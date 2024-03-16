@@ -8,29 +8,24 @@
 
 import Foundation
 
-public class Bindable<Value>: ObservableValue {
-    
-    var _value: () -> Value
-    var _adder: (@escaping (Value) -> Void) -> NSObjectProtocol
-    
-    init<Base: ObservableValue>(_ base: Base) where Base.Value == Value {
-        self._value = { base.value }
-        self._adder = base.add(_:)
+public class AnyObservableValue<Value> {
+    var base: any ObservableValue<Value>
+    init(_ base: some ObservableValue<Value>) {
+        self.base = base
     }
-    
-    public var wrappedValue: Value { self.value }
-    
-    public var projectedValue: Bindable<Value> { self }
-    
+}
+extension AnyObservableValue: ObservableValue {
     public func add(_ observer: @escaping (Value) -> Void) -> NSObjectProtocol {
-        self._adder(observer)
+        base.add(observer)
     }
     
     public var value: Value {
-        return self._value()
+        base.value
     }
 }
 
 public extension ObservableValue {
-    func asAny() -> Bindable<Value> { return Bindable(self) }
+    func asAny() -> AnyObservableValue<Value> { return AnyObservableValue(self) }
 }
+
+public typealias Bindable = AnyObservableValue

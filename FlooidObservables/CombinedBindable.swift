@@ -53,7 +53,7 @@ public extension ObservableValue {
 @freestanding(expression)
 public macro combine<each O: ObservableValue>(
     _ b: repeat each O
-) -> Bindable<(repeat (each O).Value)> = #externalMacro(module: "FlooidObservablesMacros", type: "CombineObservblesExpressionMacro")
+) -> AnyObservableValue<(repeat (each O).Value)> = #externalMacro(module: "FlooidObservablesMacros", type: "CombineObservblesExpressionMacro")
 
 class CombinedBindableArray<O: ObservableValue>: ObservableValue {
     
