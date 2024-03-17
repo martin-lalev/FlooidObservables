@@ -9,7 +9,6 @@
 import Foundation
 
 @propertyWrapper
-@dynamicMemberLookup
 public class MutableBindable<Value> {
     
     private var storedValue: Value
@@ -34,10 +33,6 @@ public class MutableBindable<Value> {
         dispatcher.post()
     }
 
-    public subscript<T>(dynamicMember keyPath: KeyPath<Value, T>) -> T {
-        return self.storedValue[keyPath: keyPath]
-    }
-    
     public func update(_ updater: (inout Value) -> Void) {
         var value = self.value
         updater(&value)

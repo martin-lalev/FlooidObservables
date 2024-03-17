@@ -75,10 +75,6 @@ public extension ObservableValue {
         return FlatMappedBindable(attachedTo: self, mapper)
     }
     
-    func flatMap<T: ObservableValue, O: AnyObject>(_ object: O, _ mapper: @escaping (O, Value) -> T) -> some ObservableValue<T.Value> {
-        return FlatMappedBindable(attachedTo: self) { [unowned object] in mapper(object, $0) }
-    }
-    
 }
 
 public extension ObservableValue {
@@ -97,26 +93,6 @@ public extension ObservableValue {
         return FlatMappedBindable(attachedTo: self) {
             if let value = $0 {
                 return mapper(value).asAny()
-            } else {
-                return MutableBindable(with: defaultValue).asAny()
-            }
-        }
-    }
-    
-    func flatMap<T: ObservableValue, TD: ObservableValue, O: AnyObject, V>(defaultTo defaultObservable: TD, _ object: O, _ mapper: @escaping (O, V) -> T) -> some ObservableValue<T.Value> where Value == V?, T.Value == TD.Value {
-        return FlatMappedBindable(attachedTo: self) {
-            if let value = $0 {
-                return mapper(object, value).asAny()
-            } else {
-                return defaultObservable.asAny()
-            }
-        }
-    }
-
-    func flatMap<T: ObservableValue, O: AnyObject, V>(defaultTo defaultValue: T.Value, _ object: O, _ mapper: @escaping (O, V) -> T) -> some ObservableValue<T.Value> where Value == V? {
-        return FlatMappedBindable(attachedTo: self) {
-            if let value = $0 {
-                return mapper(object, value).asAny()
             } else {
                 return MutableBindable(with: defaultValue).asAny()
             }

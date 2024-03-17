@@ -27,5 +27,3 @@ extension AnyObservableValue: ObservableValue {
 public extension ObservableValue {
     func asAny() -> AnyObservableValue<Value> { return AnyObservableValue(self) }
 }
-
-public typealias Bindable = AnyObservableValue

@@ -60,8 +60,8 @@ public extension ObservableValue {
         return MappedBindable(for: self, processer)
     }
     
-    func map<TargetType, O: AnyObject>(_ object: O, _ processer: @escaping (O, Value) -> TargetType) -> some ObservableValue<TargetType> {
-        return MappedBindable(for: self) { [unowned object] in processer(object, $0) }
+    func map<TargetType>(_ keyPath: KeyPath<Value, TargetType>) -> some ObservableValue<TargetType> {
+        return MappedBindable(for: self, { value in value[keyPath: keyPath] })
     }
     
 }
@@ -70,10 +70,6 @@ public extension ObservableValue {
 
     func mapUnwrapped<T,TargetType>(_ processer: @escaping (T) -> TargetType) -> some ObservableValue<TargetType?> where Value == T? {
         return MappedBindable(for: self) { $0.map(processer) }
-    }
-    
-    func mapUnwrapped<T,TargetType, O: AnyObject>(_ object: O, _ processer: @escaping (O, T) -> TargetType) -> some ObservableValue<TargetType?> where Value == T? {
-        return MappedBindable(for: self) { [unowned object] in $0.map { processer(object, $0) } }
     }
     
 }
@@ -86,24 +82,6 @@ public extension ObservableValue where Value: Sequence {
     
     func compactMapEach<TargetType>(_ processer: @escaping (Value.Element) -> TargetType?) -> some ObservableValue<[TargetType]> {
         return self.map { $0.compactMap(processer) }
-    }
-    
-    func mapEach<TargetType, O: AnyObject>(_ object: O, _ processer: @escaping (O, Value.Element) -> TargetType) -> some ObservableValue<[TargetType]> {
-        return self.map { [weak object] in
-            guard let object = object else { return [] }
-            return $0.map {
-                processer(object, $0)
-            }
-        }
-    }
-    
-    func compactMapEach<TargetType, O: AnyObject>(_ object: O, _ processer: @escaping (O, Value.Element) -> TargetType?) -> some ObservableValue<[TargetType]> {
-        return self.map { [weak object] in
-            guard let object = object else { return [] }
-            return $0.compactMap {
-                processer(object, $0)
-            }
-        }
     }
     
     func sort(_ sorter: @escaping (Value.Element, Value.Element) -> Bool) -> some ObservableValue<[Value.Element]> {
@@ -122,14 +100,6 @@ public extension ObservableValue where Value: Sequence {
         }
     }
 
-    func filter<O: AnyObject>(_ object: O, _ filterer: @escaping (O, Value.Element) -> Bool) -> some ObservableValue<[Value.Element]> {
-        return self.map(object) { objectt, items in
-            return items.filter {
-                filterer(objectt, $0)
-            }
-        }
-    }
-    
     func sort<T:Equatable>(byExistenceIn collection: some ObservableValue<[Value.Element]>, existingFirst: Bool = true, keyPath: KeyPath<Value.Element,T>) -> some ObservableValue<[Value.Element]> {
         #combine(self, collection).map { myItems, collectionItems in
             let mappedCollectionItems = collectionItems.map { $0[keyPath: keyPath] }

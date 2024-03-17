@@ -45,10 +45,6 @@ public extension ObservableValue {
         return DistinctBindable(for: self, filter)
     }
     
-    func distinct<O: AnyObject>(_ object: O, _ filter: @escaping (O, _ oldValue: Value, _ newValue: Value) -> Bool) -> some ObservableValue<Value> {
-        return DistinctBindable(for: self) { [unowned object] in filter(object, $0, $1) }
-    }
-    
 }
 
 public extension ObservableValue where Value: Equatable {
