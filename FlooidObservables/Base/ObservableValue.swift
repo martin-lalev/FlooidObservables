@@ -7,8 +7,6 @@
 
 import Foundation
 
-public protocol ObservableValue<Value> {
-    associatedtype Value
+public protocol ObservableValue<Value>: SubscribableValue {
     var value: Value { get }
-    func add(_ observer: @escaping (Value) -> Void) -> NSObjectProtocol
 }

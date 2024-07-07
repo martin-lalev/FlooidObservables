@@ -12,7 +12,7 @@ import Foundation
 public class MutableBindable<Value> {
     
     private var storedValue: Value
-    private let dispatcher: Dispatcher = ClosureDispatcher()
+    private let publisher = ValuePublisher<Value>()
     
     public init(with value: Value) {
         self.storedValue = value
@@ -30,7 +30,7 @@ public class MutableBindable<Value> {
 
     public func update(to value: Value) {
         self.storedValue = value
-        dispatcher.post()
+        publisher.post(value)
     }
 
     public func update(_ updater: (inout Value) -> Void) {
@@ -46,9 +46,8 @@ extension MutableBindable: ObservableValue {
         return self.storedValue
     }
     public func add(_ observer: @escaping (Value) -> Void) -> NSObjectProtocol {
-        dispatcher.add { [weak self] in
-            guard let self = self else { return }
-            observer(self.value)
+        publisher.add { value in
+            observer(value)
         }
     }
 }
